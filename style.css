@@ -10,7 +10,8 @@ body {
 }
 
 .calculator{
-    border: 3px solid black;
+    border: 1px solid black;
+    border-width: medium;
     min-height: 550px;
     min-width: 400px;
     display: flex;
@@ -23,6 +24,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: end;
+    border-bottom: thin solid black;
+
 }
 
 .display > div {
@@ -38,10 +41,16 @@ body {
     flex-direction: column;
     justify-content: end;
     font-size: 22px;
+    opacity: 0.8;
+}
+
+#operator {
+    color:#AB2B2B;
+    margin:0 1px 1px 0;
 }
 
 .nums-and-ops {
-    flex:2;
+    flex:4;
     display: flex;
     flex-wrap: wrap;
     gap:2px;
@@ -49,12 +58,15 @@ body {
 }
 
 
-.calculator > div {
-    border: 2px solid red;
-}
+
 
 .nums-and-ops > div {
     width: 24%;
+}
+
+.calc-btn:hover {
+    background-color: rgb(188, 234, 255);
+    cursor:pointer;
 }
 
 
@@ -75,7 +87,7 @@ body {
     color: #AB2B2B
 }
 
-.digit {
+.digit, .current-operation, .precalc-result {
     color:rgb(67, 87, 176);
 }
 
