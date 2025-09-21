@@ -40,24 +40,43 @@ const resultNode = document.querySelector("#res");
 document.querySelectorAll(".digit").forEach(digit => digit.addEventListener("click", e => {
     const selectedDigit = e.target.textContent;
 
-    if(!operator) {
-        a = !a ?  selectedDigit : a + selectedDigit;
-        precalcRes = null;
-        finalRes = null
-    } else {
-        b = !b ? selectedDigit : b + selectedDigit;
-        precalcRes = calcResult();
+    handlButtonPress(selectedDigit);
+}));
+
+document.addEventListener("keydown", event => {
+    if(!Number.isNaN(+event.key) || event.key === ".") handlButtonPress(event.key);
+    
+    if(["x","+","-","/"].includes(event.key)) {
+        operator = event.key;
+        handleOperandPress();
+        updateDisplay();
     }
 
-    updateDisplay();
-}));
+    if(["=","Enter"].includes(event.key)) calcFinalResult();
+
+    if("Backspace" === event.key) {
+        del();
+    }
+
+    console.log(event.key)
+});
+
+
 
 document.querySelectorAll(".operand").forEach(opr => opr.addEventListener("click", e => {
     if(!a && !finalRes) return;
+
     const selectedOperandId = e.currentTarget.getAttribute("id");
     operator = operator ?? OPERATOR_SIGN[selectedOperandId];
 
+    handleOperandPress();
     
+    operator = OPERATOR_SIGN[selectedOperandId];
+    updateDisplay();    
+}));
+
+
+function handleOperandPress() {
     if(finalRes) {
         a = finalRes;
         finalRes = null;
@@ -67,31 +86,32 @@ document.querySelectorAll(".operand").forEach(opr => opr.addEventListener("click
         a = calcResult();
         b = null;
     }
-
-    operator = OPERATOR_SIGN[selectedOperandId];
-    updateDisplay();    
-}));
+}
 
 
-document.querySelector("#canc").addEventListener("click", () => {
+document.querySelector("#canc").addEventListener("click", () => clear());
+
+function clear() {
     a = null;
     b = null;
     operator = null;
     precalcRes = null;
     finalRes = null;
     updateDisplay();
-});
+}
 
-document.querySelector("#equals").addEventListener("click", () => {
+document.querySelector("#equals").addEventListener("click", () => calcFinalResult());
+
+function calcFinalResult() {
     if(!b) return;
 
-    finalRes = calcResult();
+    finalRes = calcResult()
     a = null;
     b = null;
     precalcRes = null;
     operator = null;
     updateDisplay();
-});
+}
 
 document.querySelector("#floating").addEventListener("click", () => {
     if(b) {
@@ -102,6 +122,21 @@ document.querySelector("#floating").addEventListener("click", () => {
 
     updateDisplay();
 });
+
+document.querySelector("#del").addEventListener("click", () => del());
+
+function del() {
+    if (b) {
+        b = cancLastDigit(b);
+    } else if (!operator) {
+        a = cancLastDigit(a);
+    }
+    updateDisplay();
+}
+
+function cancLastDigit(x) {
+    return x.slice(0, x.length-1);
+}
 
 function addFloatingPoint(x) {
     return x.indexOf(".") == -1 ? x += "." : x;
@@ -114,6 +149,20 @@ function updateDisplay() {
     operatorNode.textContent = operator;
     precalcNode.textContent = precalcRes;
     resultNode.textContent = finalRes;
+}
+
+function handlButtonPress(selectedDigit) {
+    console.log(selectedDigit)
+    if(!operator) {
+        a = !a ?  selectedDigit : a + selectedDigit;
+        precalcRes = null;
+        finalRes = null
+    } else {
+        b = !b ? selectedDigit : b + selectedDigit;
+        precalcRes = calcResult();
+    }
+
+    updateDisplay();
 }
 
 function calcResult() {
