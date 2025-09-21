@@ -12,20 +12,19 @@ body {
 .calculator{
     border: 1px solid black;
     border-width: medium;
-    min-height: 550px;
-    min-width: 400px;
+    height: 550px;
+    width: 400px;
     display: flex;
     flex-direction: column;
 }
 
 .display {
-    flex: 1;
+    height: 30%;
     padding:15px;
     display: flex;
     flex-direction: column;
     align-items: end;
     border-bottom: thin solid black;
-
 }
 
 .display > div {
@@ -36,7 +35,7 @@ body {
     font-size:42px;
 }
 
-.precalc-result {
+#precalc-result {
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -44,13 +43,13 @@ body {
     opacity: 0.8;
 }
 
-#operator {
+#operator,#res {
     color:#AB2B2B;
     margin:0 1px 1px 0;
 }
 
 .nums-and-ops {
-    flex:4;
+    height: 70%;
     display: flex;
     flex-wrap: wrap;
     gap:2px;
@@ -87,7 +86,7 @@ body {
     color: #AB2B2B
 }
 
-.digit, .current-operation, .precalc-result {
+.digit, .current-operation, #precalc-result {
     color:rgb(67, 87, 176);
 }
 
