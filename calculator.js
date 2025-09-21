@@ -49,7 +49,6 @@ document.querySelectorAll(".digit").forEach(digit => digit.addEventListener("cli
         precalcRes = calcResult();
     }
 
-
     updateDisplay();
 }));
 
@@ -57,6 +56,7 @@ document.querySelectorAll(".operand").forEach(opr => opr.addEventListener("click
     if(!a && !finalRes) return;
     const selectedOperandId = e.currentTarget.getAttribute("id");
     operator = operator ?? OPERATOR_SIGN[selectedOperandId];
+
     
     if(finalRes) {
         a = finalRes;
@@ -68,13 +68,8 @@ document.querySelectorAll(".operand").forEach(opr => opr.addEventListener("click
         b = null;
     }
 
-    
     operator = OPERATOR_SIGN[selectedOperandId];
-
-        
-    updateDisplay();
-
-    
+    updateDisplay();    
 }));
 
 
@@ -83,6 +78,7 @@ document.querySelector("#canc").addEventListener("click", () => {
     b = null;
     operator = null;
     precalcRes = null;
+    finalRes = null;
     updateDisplay();
 });
 
@@ -96,6 +92,20 @@ document.querySelector("#equals").addEventListener("click", () => {
     operator = null;
     updateDisplay();
 });
+
+document.querySelector("#floating").addEventListener("click", () => {
+    if(b) {
+        b = addFloatingPoint(b);
+    } else {
+        a = addFloatingPoint(a);
+    }
+
+    updateDisplay();
+});
+
+function addFloatingPoint(x) {
+    return x.indexOf(".") == -1 ? x += "." : x;
+}
 
 
 function updateDisplay() {
